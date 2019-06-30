@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use GuzzleHttp\Client;
 use App\Employee;
+use GuzzleHttp\Exception\ServerException;
 use Illuminate\Console\Command;
 use App\Http\Controllers\API\PostAPIController;
 class SET extends Command
@@ -39,38 +40,27 @@ class SET extends Command
      */
     public function handle()
     {
+        try {
+            $id = $this->argument('id');
+            $emp_id = $this->argument('emp_id');
+            $epm_name = $this->argument('epm_name');
+            $ip_address = $this->argument('ip_address');
 
+            // Post
+            $client = new \GuzzleHttp\Client();
+            $request = $client->post('http://127.0.0.1:8000/api/posts', [
+                'form_params' => [
+                    'id' => $id,
+                    'emp_id' => $emp_id,
+                    'epm_name' => $epm_name,
+                    'ip_address' => $ip_address
 
-    //   $this->info("Hello".$this->argument('id'));
-        $id =  $this->argument('id');
-     $emp_id =  $this->argument('emp_id');
-        $epm_name =  $this->argument('epm_name');
-        $ip_address =  $this->argument('ip_address');
-/*
-       // get data based on Ip address
-        $client = new \GuzzleHttp\Client();
-       $request = $client->get('http://127.0.0.1:8000/api/search/191.168.10.10');
-        $response = $request->getBody();
-       $this->info("result".$response);*/
+                ]
+            ]);
+            $this->info($ip_address . " assign to employee " . $epm_name . " successfully.");
 
-
-      // Post
-        $client = new \GuzzleHttp\Client();
-        $url = "http://127.0.0.1:8000/api/posts";
-        $request = $client->post('http://127.0.0.1:8000/api/posts', [
-            'form_params' => [
-                'id' => $id,
-                'emp_id' => $emp_id,
-               'epm_name' => $epm_name,
-               'ip_address' => $ip_address
-
-            ]
-        ]);
-        $request->getStatusCode();
-        $this->info("result".$request->getStatusCode());
-
-
-
+        } catch (ServerException $e) {
+            $this->info("Employee data already exist into employee table");
+        }
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Console\Command;
 use GuzzleHttp\Client;
 
@@ -38,11 +39,15 @@ class GET extends Command
      */
     public function handle()
     {
-        $ip_address =  $this->argument('ip_address');
-        // get data based on Ip address
-        $client = new \GuzzleHttp\Client();
-        $request = $client->get('http://127.0.0.1:8000/api/search/'.$ip_address);
-        $response = $request->getBody();
-        $this->info("result".$response);
-    }
+        try {
+            $ip_address = $this->argument('ip_address');
+            // get data based on Ip address
+            $client = new \GuzzleHttp\Client();
+            $request = $client->get('http://127.0.0.1:8000/api/search/' . $ip_address);
+            $response = $request->getBody();
+            $this->info("employee:" . $response);
+        }catch (Exception $e){
+            $this->info("ipadress ".$ip_address." doesn't exist into Employee table");
+        }
+    }   
 }

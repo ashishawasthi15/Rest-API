@@ -32,24 +32,23 @@ class PostAPIController extends APIBaseController
      */
     public function store(Request $request)
     {
-        $input = $request->all();
+        // get all input from request like id, emp_idetc
+        $empdata = $request->all();
 
-
-        $validator = Validator::make($input, [
+        // Set required field for body if we don't provide any data than it will show Validation error
+        $validator = Validator::make($empdata, [
             'id' => 'required',
             'emp_id' => 'required',
              'epm_name' => 'required',
             'ip_address' => 'required'
        ]);
 
-
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-
-          $post = Employee::create($input);
-
+        // Insert employee data
+        $post = Employee::create($empdata);
 
         return $this->sendResponse($post->toArray(), 'Post created successfully.');
     }
