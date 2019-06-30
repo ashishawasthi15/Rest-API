@@ -72,20 +72,6 @@ class PostAPIController extends APIBaseController
             ], 404);
         }
     }
-    /**
-    {
-           $post = Employee::find($id);
-
-
-        if (is_null($post)) {
-            return $this->sendError('Post not found.');
-        }
-
-
-        return $this->sendResponse($post->toArray(), 'BY Id Post retrieved successfully.');
-    }
-     * */
-
 
     /**
      * Update the specified resource in storage.
@@ -115,13 +101,11 @@ class PostAPIController extends APIBaseController
             return $this->sendError('Post not found.');
         }
 
-
         $post->id = $input['id'];
         $post->emp_id = $input['emp_id'];
         $post->epm_name = $input['epm_name'];
         $post->ip_address = $input['ip_address'];
         $post->save();
-
 
         return $this->sendResponse($post->toArray(), 'Post updated successfully.');
     }

@@ -58,7 +58,7 @@ class DEL extends Command
           if($result == 'y'){
             $this->info("Exception message :".$e.get_message_body_summary());
             }else{
-              $this->info("Record is not exist into table.. ");
+              $this->info("Exception occur..");
           }
         }
     }
