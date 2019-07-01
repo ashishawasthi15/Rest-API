@@ -91,6 +91,9 @@ Employee table-
 #set data in employees table  - id, emp_id, epm_name,ip_address
 php artisan set:employee 14 6 ashish 192.168.22.21 
 
+#concatenated two argument in cmd for storing data in one column epm_name like  Ashish Awasthi
+php artisan set:employee 14 6 "ashish "awasthi"" 192.168.22.21  
+
 #get employee data basis on ip_address Command description
 	php artisan get:employee 192.168.22.21
 
